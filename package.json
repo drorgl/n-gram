@@ -13,60 +13,32 @@
     "bigram",
     "trigram"
   ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "words/n-gram",
   "bugs": "https://github.com/words/n-gram/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
-    "Matt Fletcher <mattflet@gmail.com>"
-  ],
-  "files": [
-    "index.js"
+    "Matt Fletcher <mattflet@gmail.com>",
+    "Dror Gluska <drorgl@gmail.com>"
   ],
   "dependencies": {},
   "devDependencies": {
-    "browserify": "^16.0.0",
-    "nyc": "^14.0.0",
-    "prettier": "^1.0.0",
-    "remark-cli": "^6.0.0",
-    "remark-preset-wooorm": "^5.0.0",
-    "tape": "^4.0.0",
-    "tinyify": "^2.0.0",
-    "xo": "^0.24.0"
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "@types/tape": "^4.2.33",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.2"
   },
   "scripts": {
-    "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
-    "build-bundle": "browserify . -s nGram > n-gram.js",
-    "build-mangle": "browserify . -s nGram -p tinyify > n-gram.min.js",
-    "build": "npm run build-bundle && npm run build-mangle",
-    "test-api": "node test",
-    "test-coverage": "nyc --reporter lcov tape test.js",
-    "test": "npm run format && npm run build && npm run test-coverage"
-  },
-  "nyc": {
-    "check-coverage": true,
-    "lines": 100,
-    "functions": 100,
-    "branches": 100
-  },
-  "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "semi": false,
-    "trailingComma": "none"
-  },
-  "xo": {
-    "prettier": true,
-    "esnext": false,
-    "ignores": [
-      "n-gram.js"
-    ]
-  },
-  "remarkConfig": {
-    "plugins": [
-      "preset-wooorm"
-    ]
+    "test": "mocha -r ts-node/register tests/**/*.spec.ts",
+    "lint": "tslint --project .",
+    "dryrun": "tsc -noEmit",
+    "build": "tsc",
+    "prepublish": "npm run lint && npm run dryrun && npm run test"
   }
 }
