@@ -9,3 +9,4 @@ yarn.lock
 /dist
 /docs/html
 /test-results.xml
+/drorgl-n-gram*.tgz
