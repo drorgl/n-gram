@@ -1,5 +1,5 @@
 {
-  "name": "n-gram",
+  "name": "@drorgl/n-gram",
   "version": "1.1.1",
   "description": "Get n-grams from text",
   "license": "MIT",
@@ -15,8 +15,11 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "words/n-gram",
-  "bugs": "https://github.com/words/n-gram/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drorgl/n-gram"
+  },
+  "bugs": "https://github.com/drorgl/n-gram/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
@@ -25,21 +28,32 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.7",
-    "@types/tape": "^4.2.33",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/tape": "^4.13.0",
     "chai": "^4.2.0",
-    "mocha": "^6.1.4",
-    "ts-node": "^8.3.0",
-    "tslint": "^5.17.0",
-    "typescript": "^3.5.2"
+    "concat-md": "^0.3.5",
+    "mocha": "^8.0.1",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.1.0",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.2",
+    "typedoc": "^0.17.7",
+    "typedoc-plugin-markdown": "^2.3.1",
+    "typescript": "^3.9.5"
   },
   "scripts": {
     "test": "mocha -r ts-node/register tests/**/*.spec.ts",
+    "test:ci": "mocha --reporter mocha-junit-reporter -r ts-node/register tests/**/*.spec.ts",
     "lint": "tslint --project .",
     "dryrun": "tsc -noEmit",
     "build": "tsc",
-    "prepublish": "npm run lint && npm run dryrun && npm run test",
-    "install": "npm run build"
+    "build:clean": "rimraf ./dist",
+    "precommit": "npm run lint && npm run dryrun && npm run test",
+    "doc:clean": "rimraf ./docs/html",
+    "doc": "npm run doc:clean && typedoc --tsconfig tsconfig.json  --plugin none",
+    "doc:markdown": "npm run doc:clean && typedoc --tsconfig tsconfig.json --plugin typedoc-plugin-markdown --theme markdown && concat-md --toc --decrease-title-levels --dir-name-as-title ./docs/html > ./docs/html/single-page.md",
+    "publish-now": "npm publish --access public",
+    "coverage": "rimraf ./coverage && nyc mocha -r ts-node/register -r source-map-support/register --ui bdd tests/**/*.spec.ts"
   }
 }

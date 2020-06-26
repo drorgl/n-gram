@@ -7,3 +7,5 @@ n-gram.js
 n-gram.min.js
 yarn.lock
 /dist
+/docs/html
+/test-results.xml
